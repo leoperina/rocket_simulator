@@ -1,5 +1,22 @@
 function [f] = validation_model_variablemassNrho(t, y, MSL, g, rhofun, Fc)
-%VALIDATION_MODEL Modello delle EDO di moto atto a validare il modello
+%VALIDATION_MODEL_VARIABLEMASSNRHO it is a validation model, later
+%translated in Simulink, to validate that everything works as it should.
+% It is formatted to be compatible with ODE integrators and it takes as
+% input:
+%       t           time vector
+%       y           state vector [x, vx, y (altitude), vy, theta, theta_dot,
+%                                   propeller_mass]
+%       MSL         struct containing some useful properties
+%       g           constant, it's the gravity constants....
+%       rhofun      function handle returning air density as a fun of
+%                   altitude
+%       Fc          function handle containing the control force as a
+%                   function of time
+% the output:
+%       f           derivative of the state vector f = dy/dt
+% 
+% format:
+%       [f] = validation_model_variablemassNrho(t, y, MSL, g, rhofun, Fc)
 
 
 % xp   = y(1);

@@ -10,6 +10,9 @@ clc
 %   MSL     [struct]        contiene le dimensioni caratteristiche del
 %                           lanciatore.
 %   AMB     [struct]        struct containing data about air at launch
+%   SIM     [struct]        contiene i dati di simulazione
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %___ variables ____________________________________________________________
 
@@ -22,25 +25,22 @@ AMB.lambda = -0.0065;
 AMB.rho    = @(h) ...
     1.225*(1 + AMB.lambda*h/AMB.T0).^(-AMB.g0/(AMB.R*AMB.lambda));
 
-figure('Color',[1, 1, 1])
-plot(1:5000, AMB.rho(1:5000))
+MSL.Isp   = 300;                                                             % engine Isp, in [s]
+MSL.mp    = 0.5;                                                             % propellent weight (at startup)
+MSL.mdot  = -MSL.mp / 5;                                                     % mass flow out of the nozzle (negative since it's exiting the rocket)
+MSL.tb    = MSL.mp / abs(MSL.mdot);                                          % burning time [s] (after this time, thrust goes to zero)
+MSL.T     = MSL.Isp*abs(MSL.mdot)*AMB.g0;                                    % engine thrust, assumed constant [N]
 
-
+MSL.ms    = 1;                                                               % empty weight
+MSL.m     = MSL.mp + MSL.ms;                                                 % starting mass
 MSL.l     = 1;                                                               % rocket length
 MSL.diam  = 0.12;                                                            % body diameter
 MSL.lc    = 0.45;                                                            % control arm
 MSL.la    = 0.20;                                                            % aerodinamic arm
-MSL.ms    = 1;                                                               % empty weight
-MSL.mp    = 0.5;                                                             % propellent weight (at startup)
-MSL.m     = MSL.mp + MSL.ms;                                                 % starting mass
 MSL.J     = MSL.m*MSL.l^2/12;                                                % moment of inertia
-MSL.mdot  = -MSL.mp / 5;                                                     % mass flow out of the nozzle (negative since it's exiting the rocket)
-MSL.tb    = MSL.mp / abs(MSL.mdot);                                          % burning time [s] (after this time, thrust goes to zero)
-MSL.Isp   = 300;                                                             % engine Isp, in [s]
-MSL.T     = MSL.Isp*abs(MSL.mdot)*AMB.g0;                                    % engine thrust, assumed constant [N]
 MSL.clt   = 3.7;                                                             % cl_derivative [cl/rad]
 MSL.clts  = -2.4;                                                            % cl_der after stalling [cl/rad]
-MSL.thlim = deg2rad([-45, -20, 20, 45]);                                     % theta limits
+MSL.thlim = deg2rad([-45, -20, 20, 45]);                                     % angle of attack limits. Over those values the rocket is in a stall and the simulation stops having physical sense
 MSL.thc   = 0.1;                                                             % viscous damping
 MSL.cl    = @(th) ...
     (th > MSL.thlim(2) & th <= MSL.thlim(3)) .* MSL.clt.*th + ...
@@ -141,14 +141,14 @@ grid on
 
 figure('Color',[1, 1, 1])
 plot(SIM.t, rad2deg(SIM.th), 'DisplayName', '\theta', 'LineWidth',1)
-hold on
-plot(SIM.t, rad2deg(SIM.beta), 'DisplayName', '\beta', 'LineWidth',1)
-xline(MSL.tb, 'DisplayName', 'MECO')
-ylabel('Angle - [deg]')
-xlabel('Time - [s]')
-yyaxis right
-plot(SIM.t, SIM.Fc(SIM.t), 'DisplayName', 'Control Force', 'LineWidth',1)
-ylabel('Force - [N]')
+% hold on
+% plot(SIM.t, rad2deg(SIM.beta), 'DisplayName', '\beta', 'LineWidth',1)
+% xline(MSL.tb, 'DisplayName', 'MECO')
+% ylabel('Angle - [deg]')
+% xlabel('Time - [s]')
+% yyaxis right
+% plot(SIM.t, SIM.Fc(SIM.t), 'DisplayName', 'Control Force', 'LineWidth',1)
+% ylabel('Force - [N]')
 legend
 grid minor
 
