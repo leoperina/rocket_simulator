@@ -4,14 +4,17 @@ gli altri sono indipendenti e fatti per generare, visualizzare o
 modificare mesh varie.
 
 Nel particolare:
-1) confront_plotter.m:  	genera un plot contenente curve di regressione 
-				al variare di determinati parametri.
+1) mesh_generator.m: genera la mesh di regressione partendo da un file 
+                iniziale. Ha bisogno per partire di un file che contenga i 
+                vertici della geometria e il raggio esterno del booster, il
+                tutto in formato .txt
+                Funziona in modo un po' sporco per geometrie regolari come
+                la circolare.
 2) mesh_generator_noinpfile.m:	fa quello che fa mesh_generator ma lasciando al
 				programmatore la scelta sui parametri senza dover
 				fare richiesta con mesh_requester.cpp (utile per
 				debug veloci)
-3) search_optimal_params.m:	serve solo a formattare bene i dati sperimentali (vedi progetto)
-4) star_port_plotter.m:		dato un file contenente i vertici iniziali, genera 
-				la sezione del porto, formattata bene
-5) vector_mesh_generator.m:	fa la stessa cosa di confront_plotter in teoria (boh non
-				so perché ho fatto entrambi vai a capire)
+
+L'output di questi due script è un file che finisce in _graph.txt che 
+contiene le informazioni relative alla curva di regressione. In particolare
+contiene: [perimetro (burning area), area (volume interno) e step]
