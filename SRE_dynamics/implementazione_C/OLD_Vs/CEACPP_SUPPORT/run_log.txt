@@ -1,0 +1,12 @@
+
+C:\Users\Leonardo Perina\OneDrive - Politecnico di Milano\Desktop\UNIVERSITA\TERZO_ANNO\SECONDO_SEMESTRE\PROP_LAB\codice\implementazione_C>"C:\Program Files\MATLAB\R2024b\bin\matlab.exe" -batch "run('C:/Users/Leonardo Perina/OneDrive - Politecnico di Milano/Desktop/UNIVERSITA/TERZO_ANNO/SECONDO_SEMESTRE/PROP_LAB/codice/implementazione_C/CEACPP_SUPPORT/return_params.m')" 
+{Unable to resolve the name 'x.output.temperature'.
+
+Error in return_params (line 12)
+out(1) = x.output.temperature;
+         ^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

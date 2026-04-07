@@ -1,0 +1,147 @@
+=== GUIDA DI UTILIZZO AL CODICE ===
+
+//////////////////////////////////////////////////////////////////
+ - GENERAZIONE CURVE DI PRESSIONE - 
+
+Overview: 
+
+Questo insieme di codici ha come obiettivo la generazione di 
+un grafico contenente la curva di pressione e di spinta del
+propulsore scelto. Così come la FINESTRA DI DEBUG (prossima
+sezione), è composto da due file, uno scritto in C++ e l'altro
+in MATLAB. L'ordine di esecuzione è SEMPRE prima C++ poi MATLAB.
+
+Questo codice non è ottimizzato per essere particolarmene 
+USER friendly, quindi si prega di seguire attentamente la
+guida, in modo da evitare bug, sovrascrizioni o risultati
+sbagliati e/o forvianti.
+------------------------------------------------------------------
+
+sandbox.cpp: 
+
+Questo file C++ serve a generare i valori numerici di pressione,
+perimetro, area, tempo, e step di regressione per una determinata
+burn. 
+L'USER deve aprire il file, quindi compilare le tre struct presenti
+nel main correttamente, facendo attenzione alle unità di misura, 
+in particolare alle UM delle pressioni (P_ext è in Pa, P_iniziale in MPa).
+Fatto questo, è NECESSARIO controllare che la variabile FOLDER 
+punti alla cartella in cui si vogliono salvare i dati. Se nella 
+cartella sono già presenti altri dati, verranno sovrascritti.
+L'output di questo programma sono due file di nome "simulation_data.txt"
+e "log.txt" contenenti rispettivamente i dati di simulazione e un log
+contenente i dati di setup della simulazione. 
+
+//////////////////////////////////////////////////////////////////
+ - FINESTRA DI DEBUG -  
+
+Overview:
+
+Questo insieme di codici (C++ e MATLAB) ha come obiettivo
+ultimo la generazione di grafici e mesh che possono mostrare
+all'USER come regredisce una determinata geometria di grano
+a stella. Nello specifico, l'USER dovrà eseguire prima il 
+file C++, poi eseguire una o entrambe le sezioni dello
+script di MATLAB nell'ordine appena mostrato. 
+------------------------------------------------------------------
+
+debug_page.cpp:
+
+Il file C++ ha come obiettivo la generazione di una cartella
+di file, dove ogni file intestato come "graph_data" contiene 
+ordinati "N, h_fr, step, D" seguiti dai dati della curva di
+regressione del grano, oltre che ad un array di file "mesh_data"
+con i punti della mesh durante la regressione.
+* guida all'UTILIZZO
+    Per utilizzare correttamente questo file, vanno seguiti i seguenti
+    passi:
+    1) nel main, modificare a piacimento le variabili iniziali. I tre 
+    vettori Nv, h_fv, D_v dettano le permutazioni che verranno calcolate.
+    Attenzione! il numero di iterazioni (quindi di file) che verrà generato
+    sarà uguale al prodotto delle tre lunghezze dei vettori, non esagerare
+    con la lunghezza dei vettori!
+    2) focalizzarsi ora sulla funzione condition(). Questa funzione detta per 
+    quali geometrie verranno creati SIA il file "graph_data" SIA "mesh_data".
+    Compilare questa funzione tenendo a mente che i valori TRUE genereranno 
+    anche "mesh_data", oltre che alla standard "graph_data".
+    Per esempio, se l'obiettivo fosse studiare lo sviluppo di tutte le mesh
+    con 10 punte di stella, la funzione prenderà la seguente forma:
+    bool condition(int N, float h_fr, float D) {
+        return (N == 10); 
+    }
+    N.B. ( return true ) detta che tutte le mesh vengano generate. 
+    Generalmente il salvataggio della mesh aumenta significativamente il peso 
+    e il tempo computazionale della simulazione, usarlo con parsimonia.
+    3) Prima di eseguire VERIFICARE che la variabile FOLDER punti alla
+    cartella giusta. Il programma è fatto per sovrascrivere i file esistenti.
+    VERIFICARE inoltre che la cartella target sia già esistente, altrimenti 
+    il codice eseguirà ma i dati non verranno salvati da nessuna parte.
+    4) eseguire il file (nel caso in cui FOLDER punti già alla cartella voluta,
+    è leggermente più veloce eseguire direttamente il file .exe, si consiglia
+    comunque attenzione).
+    5) aprire la cartella con i file salvat, quindi il file "log.txt".
+    Qui, è presente una copia del terminale durante l'esecuzione del file.
+    Può essere utile per cross-referenziare i file durante l'utilizzo di MATLAB
+    e per verificare quali simulazioni sono flaggate con warning (o con tempi
+    di simulazione particolarmente lunghi).
+* SOLID_PROP2.h
+    Questa è la libreria di supporto al main. Sono presenti tutte le funzioni
+    utili alla corretta esecuzione. Lato USER, l'unica informazione utile è che,
+    nel caso sia necessario portare a convergenza una determinata configurazione,
+    anche a scapito di un fattore di veridicità, si può attivare la SAFE MODE 
+    definendo la seguente macro
+    #define SAFEMODE
+    Questa modalità non determina necessariamente convergenza, ma elimina 
+    completamente il "clustering" nelle punte, al prezzo di un fattore di 
+    veridicità dei dati.
+------------------------------------------------------------------
+
+supporto_debug_poge:
+
+Una volta eseguito il codice C++, aprire il file MATLAB. Sono presenti 
+tre sezioni: la prima carica i dati relativi alla curva di regressione, 
+la seconda studia l'andamento della mesh nel tempo.
+* SEZIONE I:
+    In questa sezione viene plottato il grafico che confronta 
+    tutte le curve generate nella cartella.
+    All'interno del FOR che genera il plot, è presente un IF.
+    In questo if è possibile filtrare le curve di interesse 
+    da plottare. Per esempio
+    if I         // plotterà tutte le curve
+    if I >= 3    // plotterà tutte le curve dalla 3 alla friendly
+    if N == 15   // plotteà tutte le geometrie con 15 punte
+    - nota: alla fine è presente una sezione che setta gli assi ad un
+    valore standard, basato su TUTTE le curve, anche quelle non mostrate.
+    - nota: da qui è già possibile trovare dei sospetti non convergenti,
+    se il grafico ha una geometria anormale, probabilmente non ha raggiunto
+    convergenza (non hai fatto la grande scoperta, stai solo usando 
+    un codice di SCARSISSIMA manifattura hehe).
+    In caso di sospetti anomali (o anche no, a volte controllare è meglio)
+    si consiglia di reiterare C++ e aggiungere anche "mesh_data" per l'iterazione
+    incriminata.
+* SEZIONE II:
+    In questa sezione, vengono mostrati, uno alla volta, i dati direttamente
+    mesh scelti. Per utilizzare questa sezione è necessario controllare il
+    nome del file in "filename", scegliere la mesh da generare, ed eseguire la 
+    sezione. Comparirà un plot. 
+    - nota: si osservi che qua non è presente nessun close all. Questo è
+    per facilitare il confronto fra mesh e/o curve di regressione.
+    - consiglio: per osservare la validità della mesh, osservare 
+    in primo luogo se la geometria ha senso (quando non ha senso si nota 
+    immediatamente), ma poi zoomare sulle punte e vedere quale è lo stato
+    del "clustering" sulle punte, spesso può dire molto sulla validità dei dati.
+------------------------------------------------------------------
+
+note generali:
+
+Questo codice è strutturato per essere di facile manutenzione e modularità.
+Per ora è abbastanza fragile, ma per fare il salto di qualità ha 
+bisognio solo di una versione più stabile di filter_mesh(). 
+Qualora qualche coraggioso programmatore volesse provare nell'impresa,
+la sola modifica di filter_mesh, senza modificarne i parametri, dovrebbe
+essere sufficiente a completare e stabilizzare l'intera simulazione,
+aumentando il valore di questo codice esponenzialmente. 
+
+
+Ad una conoscenza libera, universale, popolare ed esente da profitto. 
+LP

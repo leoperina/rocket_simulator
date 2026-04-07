@@ -1,0 +1,9 @@
+MODE: corrected parameters simulation
+
+ >: PCurve() chiamata
+Il file contenente i vertici non esiste o è irraggiungibile
+ >: dati caricati con successo
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.097390
+ >: burn finita nominalmente all'iterata : 1
+

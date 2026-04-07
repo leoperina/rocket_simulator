@@ -1,0 +1,53 @@
+===== GUIDA ALL'UTILIZZO DEL CODICE =====
+
+
+-----------------------------------------
+| -> ESECUZIONE DEL CODICE
+seguire questa guida SOLO se il codice è già pronto per essere compilato
+
+% compilazione dei dati del problema
+APRI...............sandbox.cpp
+COMPILA............le struct Propellant, Booster, Grain leggendo i commenti con attenzione
+APRI...............CEACPP_SUPPORT/return_params.m e verifica i dati
+
+% meshing
+VERIFICA...........l'esistenza del file associato al Grain 
+...................e che questo corrisponda ai dati compilati con Grain (numero di punte, diametro interno, ecc)
+SE.................il file "_graph.txt" non esiste per i dati richiesti
+    SEGUI la guida di compilazione della mesh prima di proseguire
+VERIFICA...........che la variabile FOLDER punti (come DIR) ad una cartella esistente (i dati verranno generati e non salvati, altrimenti)
+
+% impostazione dei dati di simulazione
+APRI...............THDYN_SUPPORT.h
+CERCA..............#define UPDATEPARAMS
+VALUTA.............se tenere o cancellare (consigliato commentare più che cancellare) #define UPDATEPARAMS
+    nota: se UPDATEPARAMS è commentato, il codice compilerà molto più velocemente, ma i dati saranno leggermente meno realistici
+SE.................UPDATEPARAMS NON è commentato (quindi è attivamente presente nel codice)
+    APRI...........CEACPP_SUPPORT
+    APRI...........run_mat.bat (consigliato blocco note o VSCode)
+    INSERISCI......la DIR di matlab.exe del TUO computer nelle prime virgolette
+    INSERISCI......la DIR di return_params.m nelle seconde virgolette
+    CHIUDI.........run_mat.bat
+COMPILA............sandbox.cpp
+APRI...............la cartella puntata da FOLDER
+VERIFICA...........lo stato del file log.txt (che esista e che non ci siano messaggi preoccupanti)
+FINE...............|
+
+-----------------------------------------
+| -> GENERAZIONE DELLA MESH
+seguire questa guida per generare il file "_graph.txt"
+
+SE.................il file richiesto già esiste 
+...................(es. vorrei un grano con N = 40, D = 1, h_frac = 0.25 ed è presente 
+..................."N40D1h0_25_graph.txt")
+    ALLORA.........la guida è completata
+ALTRIMENTI.........continua la guida
+APRI...............mesh_requester.cpp
+COMPILA o COPIA....la struct Grain
+ESEGUI.............il codice
+VERIFICA...........l'esistenza del file generato in mesh_generator
+APRI...............mesh_generator/mesh_generator.ma
+COMPILA............filename con il nome del file appena generato
+ESEGUI.............il codice
+VERIFICA...........i plot siano corretti e coerenti
+FINE...............|

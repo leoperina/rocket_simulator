@@ -1,0 +1,60 @@
+MODE: corrected parameters simulation
+
+ >: PCurve() chiamata
+ >: dati caricati con successo
+ >: debug -> cstar = 1512.440063
+ >: debug -> cT = 1.097390
+ >: iterazione 100
+ >: dPdt :  20.525309
+ >: debug -> cstar = 1512.440063
+ >: debug -> cT = 1.337514
+ >: iterazione 200
+ >: dPdt :  17.444727
+ >: debug -> cstar = 1512.440063
+ >: debug -> cT = 1.529901
+ >: iterazione 300
+ >: dPdt :  1.094574
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.666040
+ >: iterazione 400
+ >: dPdt :  -0.095173
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.691246
+ >: iterazione 500
+ >: dPdt :  -0.086605
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.671491
+ >: iterazione 600
+ >: dPdt :  -0.051000
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.651012
+ >: iterazione 700
+ >: dPdt :  0.025155
+ >: debug -> cstar = 1512.440063
+ >: debug -> cT = 1.648844
+ >: iterazione 800
+ >: dPdt :  0.045540
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.659091
+ >: iterazione 900
+ >: dPdt :  0.055987
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.671840
+ >: iterazione 1000
+ >: dPdt :  -1.195517
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.534976
+ >: iterazione 1100
+ >: dPdt :  -0.389166
+ >: debug -> cstar = 1512.440186
+ >: debug -> cT = 1.325231
+ >: iterazione 1200
+ >: dPdt :  -0.169012
+ >: debug -> cstar = 1512.440063
+ >: debug -> cT = 1.038117
+ >: iterazione 1300
+ >: dPdt :  -0.071180
+ >: debug -> cstar = 1550.036377
+ >: debug -> cT = 0.565581
+ >: Abort! dPdt is not define 
+

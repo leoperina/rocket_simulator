@@ -1,0 +1,83 @@
+===== GUIDA ALL'UTILIZZO DEL CODICE =====
+
+-----------------------------------------
+| -> ESECUZIONE DEL CODICE
+seguire questa guida SOLO se il codice è già pronto per essere compilato
+
+% controlli preliminari
+SE.................l'utilizzatore sta usando VSCode per compilare le parti in .cpp
+    CANCELLARE.....la cartella .vscode (contiene i dati relativi al VSCode del programmatore)
+ALTRIMENTI.........lasciarla o cancellarla, a discrezione dell'utilizzatore
+
+% compilazione dei dati del problema
+APRI...............sandbox.cpp
+COMPILA............le struct Propellant, Booster, Grain leggendo i commenti con attenzione
+VERIFICA...........che la variabile FOLDER punti (come DIR) ad una cartella esistente (i dati verranno generati e non salvati, altrimenti)
+
+% caricamento dati propellente
+SE.................la variabile #define UPDATEPARAMS esiste nel codice (rifarsi alla sezione % impostare dati di simulazione)
+    VERIFICA.......la variabile "prop_data" punti al file contenente i dati del propellente in uso
+    SE.............il file non esite 
+        SEGUI......la guida di compilazione dei dati di propellente
+
+% meshing
+VERIFICA...........l'esistenza del file associato al Grain 
+...................e che questo corrisponda ai dati compilati con Grain (numero di punte, diametro interno, ecc)
+SE.................il file "_graph.txt" non esiste per i dati richiesti
+    SEGUI..........la guida di compilazione della mesh prima di proseguire
+
+% impostazione dati di simulazione
+APRI...............THDYN_SUPPORT.h
+CERCA..............#define UPDATEPARAMS
+SE.................la riga è commentata (non presente nel codice)
+    SUCCEDE CHE....i parametri compilati in sandbox.cpp > Propellant rimarranno costanti per tutta la simulazione
+ALTRIMENTI.........verranno aggiornati con i dati caricati nella sezione "% caricamento dati propellente"
+VALUTARE...........se mantenere o commentare la riga #define UPDATEPARAMS (consigliato di lasciarla nel codice)
+APRI...............SOLID_PROP2.h
+CERCA..............#define MANUAL_CHOICE_FOR_MPATH
+SE.................la riga è commentata (non presente nel codice)
+    SUCCEDE CHE....il caricamento della mesh avverrà attraverso un file arbitrario e NON con i dati della stella (il che rende grain.N e grain.h_frac inutili)
+ALTRIMENTI.........la DIR contenente i file della mesh verrà generata in automatico (default) 
+
+% verifica dello stato dell'output
+COMPILA............sandbox.cpp
+APRI...............la cartella puntata da FOLDER
+VERIFICA...........lo stato del file log.txt (che esista e che non ci siano messaggi preoccupanti)
+APRI...............supporto_sandobox.m
+FINE...............|
+
+-----------------------------------------
+| -> GENERAZIONE DELLA MESH
+seguire questa guida per generare il file "_graph.txt"
+
+SE.................il file richiesto già esiste 
+...................(es. vorrei un grano con N = 40, D = 1, h_frac = 0.25 ed è presente 
+..................."N40D1h0_25_graph.txt")
+    ALLORA.........la guida è completata
+ALTRIMENTI.........continua la guida
+APRI...............mesh_requester.cpp
+COMPILA o COPIA....la struct Grain
+ESEGUI.............il codice
+VERIFICA...........l'esistenza del file generato in mesh_generator
+APRI...............mesh_generator/mesh_generator.ma
+COMPILA............filename con il nome del file appena generato
+ESEGUI.............il codice
+VERIFICA...........i plot siano corretti e coerenti
+FINE...............|
+
+-----------------------------------------
+| -> GENERZIONE DEL FILE DI PROPELLENTE
+seguire questa guida per generare il file "_graph.txt"
+
+APRI...............CEA_DATA (folder)
+APRI...............fuel_prop_generator.m
+COMPILA............i dati della funzione CEA per problema frozen e rocket
+VERIFICA...........il file abbia il nome voluto
+    rule of thumb: nomina il file così "OX_perc_FUEL_perc.txt"
+ESEGUI.............il codice
+VERIFICA...........i grafici generati abbiano senso
+VERIFICA...........il file generato sia una matrice (n x 6) separato da virgole senza spazi
+FINE...............|
+
+nota: questa guida è stata fatta per una delle penultime versioni e poi aggiornata all'ultima versione, potrebbero essere scappati alcuni dettagli
+... per ogni problema di codice si contatti LP

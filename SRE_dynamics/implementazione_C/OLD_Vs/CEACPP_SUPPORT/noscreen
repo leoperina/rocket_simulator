@@ -1,0 +1,102 @@
+*******************************************************************************
+           NASA-MSFC CHEMICAL EQUILIBRIUM PROGRAM CEA IN MATLAB 
+            BY SAM KOBLISKA, ERC INC., JACOBS ESSSA, NASA MSFC 
+    REFERENCES: NASA RP-1311, PART I, 1994, NASA RP-1311, PART II, 1996
+                 REFERENCES: NASA RP-1311, PART III, 2016
+                   Version: 1.0.0.0, February 7, 2017
+              Library Version: 1.0, Library Date: February 5, 2016
+                     Time Stamp: 14-Aug-2025 15:41:27
+*******************************************************************************
+
+PROBLEM rocket
+frozen          
+Case = CASO ROCKET     
+p,bar = 5.26837 
+supar = 8 
+REACTANTS
+oxid = NH4CLO4(I), wt% = 68, t(k) = 288
+fuel = AL(CR), wt% = 18, t(k) = 288
+fuel = HTPB, C = 7.075, H = 10.65, O = 0.223, N = 0.063, wt% = 14, h,kj/mol = -58, t(k) = 288
+OUTPUT short 
+END
+
+
+
+           THEORETICAL ROCKET PERFORMANCE ASSUMING FROZEN COMPOSITION
+
+ Pin =     76.4 PSIA
+ CASE =     CASO ROCKET
+             REACTANT                    WT FRACTION      ENERGY      TEMP
+                                                          kJ/kg         K
+     oxid:         NH4CLO4(I)             68.0000000     -2528.375    288.000
+     fuel:             AL(CR)             18.0000000        -9.067    288.000
+     fuel:               HTPB             14.0000000      -579.070    288.000
+
+ O/F=    2.12500  %FUEL= 32.000000  R,EQ.RATIO= 1.851663  PHI,EQ.RATIO= 2.551340
+
+                    CHAMBER    THROAT      AR=8
+         Pinf/P:          1   1.76761   59.4527
+         P(bar):     5.2684    2.9805    0.0886
+           T(K):    3169.89   2891.52   1608.73
+    RHO(kg/m^3):     0.5439    0.3373    0.0180
+       H(kJ/kg):   -1802.00  -2329.20  -4686.58
+       U(kJ/kg):   -2770.65  -3212.79  -5178.18
+       G(kJ/kg):   -34353.9  -32022.5  -21206.8
+     S(kJ/kg-K):    10.2691   10.2691   10.2691
+
+        M (1/n):     27.209    27.209    27.209
+     MW, MOL WT:     25.166    25.166    25.166
+    Cp(kJ/kg-K):     1.9012    1.8862    1.7728
+         Gammas:     1.1915    1.1933    1.2083
+   SON VEL(m/s):     1074.3    1026.8     770.7
+    MACH NUMBER:      0.000     1.000     3.117
+
+ PERFORMANCE PARAMETERS
+
+          Ae/At:                    1         8
+   CSTAR, M/SEC:              1521.01   1521.01
+       Cf-IDEAL:             0.675107   1.57916
+         Cf-VAC:              1.24084   1.71372
+   Isp-vac, SEC:              192.455   265.797
+       Isp, SEC:              104.709   244.927
+
+ MOLE FRACTIONS
+
+            *AL:    0.00033   0.00033   0.00033
+           ALCL:    0.00905   0.00905   0.00905
+          ALCL2:    0.00027   0.00027   0.00027
+          ALCL3:    0.00005   0.00005   0.00005
+            ALH:    0.00004   0.00004   0.00004
+          ALHCL:    0.00001   0.00001   0.00001
+         ALHCL2:    0.00001   0.00001   0.00001
+           *ALO:    0.00038   0.00038   0.00038
+          ALOCL:    0.00050   0.00050   0.00050
+           ALOH:    0.00605   0.00605   0.00605
+         ALOHCL:    0.00032   0.00032   0.00032
+        ALOHCL2:    0.00020   0.00020   0.00020
+        AL(OH)2:    0.00008   0.00008   0.00008
+      AL(OH)2CL:    0.00005   0.00005   0.00005
+        AL(OH)3:    0.00001   0.00001   0.00001
+           AL2O:    0.00014   0.00014   0.00014
+          AL2O2:    0.00003   0.00003   0.00003
+            *CO:    0.23934   0.23934   0.23934
+           *CO2:    0.00953   0.00953   0.00953
+            *CL:    0.01595   0.01595   0.01595
+            CL2:    0.00001   0.00001   0.00001
+             *H:    0.05876   0.05876   0.05876
+          HALO2:    0.00001   0.00001   0.00001
+            HCO:    0.00001   0.00001   0.00001
+            HCL:    0.11862   0.11862   0.11862
+            *H2:    0.29270   0.29270   0.29270
+            H2O:    0.09008   0.09008   0.09008
+            *NO:    0.00038   0.00038   0.00038
+            *N2:    0.07374   0.07374   0.07374
+             *O:    0.00082   0.00082   0.00082
+            *OH:    0.00733   0.00733   0.00733
+            *O2:    0.00010   0.00010   0.00010
+       AL2O3(L):    0.07509   0.07509   0.07509
+
+  * THERMODYNAMIC PROPERTIES FITTED TO 20000 K 
+
+
+ NOTE. WEIGHT FRACTION OF FUEL IN TOTAL FUELS AND OF OXIDANT IN TOTAL OXIDANTS
