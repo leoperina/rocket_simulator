@@ -2,6 +2,9 @@ clear
 close all
 clc
 
+eps_ = load("Ae_At.txt");
+
+
 P_MPa = 0.1:1:20;
 
 % P, T, g, gs, R, ue
@@ -24,7 +27,7 @@ for I = 1:length(P_MPa)
         'output','short','thermo','transport','si','end');
     
     x_rocket = CEA('problem','rocket','frozen','nfz',1,... 
-      'p,bar',P_bar,'sup,ae/at',8,...
+      'p,bar',P_bar,'sup,ae/at',eps_,...
     'react','fuel','AL(cr)',...
         'wt',18,'t,k',T_start,'oxid','NH4CLO4(I)', 'wt',68,'t,k',T_start,...
         'fuel','HTPB', 'wt',14,'t,k',T_start,'h,kj/mol',-58,...
@@ -34,7 +37,7 @@ for I = 1:length(P_MPa)
     out(2) = x.output.gamma;           % gamma non congelata
     out(3) = -x.output.dlvpt * out(2); % gamma congelata
     out(4) = 8314 / x.output.mw;
-    out(5) = x_rocket.output.froz.sonvel(end);
+    out(5) = x_rocket.output.froz.cstar(1);
     out(6) = x.output.density;
     output_matrix(I, :) = [P, out];
 end
@@ -52,7 +55,7 @@ T  = output_matrix(:, 2);
 g  = output_matrix(:, 3);
 gs = output_matrix(:, 4);
 R  = output_matrix(:, 5);
-ue = output_matrix(:, 6);
+cs = output_matrix(:, 6);
 rho= output_matrix(:, 7);
 
 rho_th = P*1e6./(R.*T);
@@ -72,8 +75,8 @@ subplot(3, 2, 4)
 plot(P, R)
 title('R')
 subplot(3, 2, 5)
-plot(P, ue)
-title('exit velocity')
+plot(P, cs)
+title('c^*')
 
 subplot(3, 2, 6)
 plot(P, rho)
