@@ -17,4 +17,4 @@ Nel particolare:
 
 L'output di questi due script è un file che finisce in _graph.txt che 
 contiene le informazioni relative alla curva di regressione. In particolare
-contiene: [perimetro (burning area), area (volume interno) e step]
+contiene: [perimetro (burning area), area (volume interno), step, chamber diameter]

@@ -62,7 +62,7 @@ end
 area_(end) = (D_mx/2)^2*pi;
 
 %%
-writematrix([perim, area_, cumsum(step_vec(1:k-1))'], filename+"_graphs.txt")
+writematrix([perim, area_, cumsum(step_vec(1:k-1))', repmat(D_mx, size(perim))], filename+"_graphs.txt")
 
 % === debug per vedere le shapes
 figure('Color',[1, 1, 1])

@@ -2,15 +2,16 @@ clear
 close all
 clc
 
-filename = "try";
+filename = "star_data";
 % T = readmatrix(filename + ".txt");
 
-D_mx = 3.2;
-N    = 12;
-D    = 2;
-h_fr = 0.3188;
+D_mx = 0.4;
+N    = 10;
+D    = 0.25;
+% h_fr = 0.3188;
+h_fr = 0.45;
 
-step_vec = 0.03*ones(1, 1000);
+step_vec = 0.005*ones(1, 1000);
 % step_vec = 0.001 * 10.^(0:0.07:2);
 
 perim = [];
@@ -87,7 +88,7 @@ xlabel('passo di regressione, step [-]')
 legend('perimetro', 'area')
 
 
-writematrix([perim, area_, cumsum(step_vec(1:k-1))'], filename+"_graphs.txt")
+writematrix([perim, area_, cumsum(step_vec(1:k-1))', repmat(D_mx, size(perim))], filename+"_graphs.txt")
 
 %%
 function fig = fix_figure(fig, D_max)
