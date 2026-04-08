@@ -22,14 +22,19 @@ AMB.T0     = 288.15;                                                          % 
 AMB.R      = 8314 / 29;                                                       % J/KgK
 AMB.M      = sqrt(AMB.gamma*AMB.R*AMB.T0);
 AMB.lambda = -0.0065;
-AMB.rho    = @(h) ...
+AMBfnc.rho    = @(h) ...
     1.225*(1 + AMB.lambda*h/AMB.T0).^(-AMB.g0/(AMB.R*AMB.lambda));
+AMB.dT     = -0.0065;
+AMB.P0     = 101325;
 
+
+% this will be rendered useless in Simulink
 MSL.Isp   = 300;                                                             % engine Isp, in [s]
 MSL.mp    = 0.5;                                                             % propellent weight (at startup)
 MSL.mdot  = -MSL.mp / 5;                                                     % mass flow out of the nozzle (negative since it's exiting the rocket)
 MSL.tb    = MSL.mp / abs(MSL.mdot);                                          % burning time [s] (after this time, thrust goes to zero)
 MSL.T     = MSL.Isp*abs(MSL.mdot)*AMB.g0;                                    % engine thrust, assumed constant [N]
+
 
 MSL.ms    = 1;                                                               % empty weight
 MSL.m     = MSL.mp + MSL.ms;                                                 % starting mass
@@ -42,7 +47,7 @@ MSL.clt   = 3.7;                                                             % c
 MSL.clts  = -2.4;                                                            % cl_der after stalling [cl/rad]
 MSL.thlim = deg2rad([-45, -20, 20, 45]);                                     % angle of attack limits. Over those values the rocket is in a stall and the simulation stops having physical sense
 MSL.thc   = 0.1;                                                             % viscous damping
-MSL.cl    = @(th) ...
+MSLfnc.cl    = @(th) ...
     (th > MSL.thlim(2) & th <= MSL.thlim(3)) .* MSL.clt.*th + ...
     (th > MSL.thlim(3) & th <= MSL.thlim(4)) .* ...
     (MSL.clts.*(th - MSL.thlim(3)) + MSL.clt.*MSL.thlim(3)) + ...
@@ -50,19 +55,26 @@ MSL.cl    = @(th) ...
     (MSL.clts.*(th - MSL.thlim(2)) + MSL.clt.*MSL.thlim(2));
 MSL.cd0   = 0.01;
 MSL.k     = 0.01;
-MSL.cd    = @(th) MSL.cd0 + MSL.k*MSL.cl(th).^2;
+MSLfnc.cd    = @(th) MSL.cd0 + MSL.k*MSLfnc.cl(th).^2;
 
+%__________________________________________________ Simulink bus generation
+Simulink.Bus.createObject(MSL);
+MSLbus = slBus1;
+clear slBus1
+Simulink.Bus.createObject(AMB);
+AMBbus = slBus1;
+clear slBus1
 
+SIM.y0_sim = [0; 0; 0; 0.1; 0; 0];
 
-
-%% simulazione
+%% simulazione (è una validazione, idealmente in futuro non servirà più)
 clc
 SIM.y0 = [0; 0; 0; 0.1; 0; 0; MSL.mp];
 SIM.Fc = @(t) 0*t + 10.*(t > 1 & t < 4);
 
 SIM.opts = odeset(RelTol=1e-4,AbsTol=1e-8);
 [t, y] = ode89(@(t, y) validation_model_variablemassNrho...
-    (t, y, MSL, AMB.g0, AMB.rho, SIM.Fc) , ...
+    (t, y, MSL, MSLfnc, AMB.g0, AMBfnc.rho, SIM.Fc) , ...
     [0, 50], SIM.y0, SIM.opts);
 
 SIM.x    = y(:, 1);

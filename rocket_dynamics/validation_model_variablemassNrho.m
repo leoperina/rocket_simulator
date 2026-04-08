@@ -1,4 +1,4 @@
-function [f] = validation_model_variablemassNrho(t, y, MSL, g, rhofun, Fc)
+function [f] = validation_model_variablemassNrho(t, y, MSL, MSLfnc, g, rhofun, Fc)
 %VALIDATION_MODEL_VARIABLEMASSNRHO it is a validation model, later
 %translated in Simulink, to validate that everything works as it should.
 % It is formatted to be compatible with ODE integrators and it takes as
@@ -28,8 +28,8 @@ thd  = y(6);
 mp   = y(7);
 beta = atan2(vy,vx);
 U2   = vx^2 + vy^2;
-cl   = MSL.cl(th);
-cd   = MSL.cd(th);
+cl   = MSLfnc.cl(th);
+cd   = MSLfnc.cd(th);
 
 rho = rhofun(yp);
 
