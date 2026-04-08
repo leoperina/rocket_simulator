@@ -56,6 +56,8 @@ MSLfnc.cl    = @(th) ...
 MSL.cd0   = 0.01;
 MSL.k     = 0.01;
 MSLfnc.cd    = @(th) MSL.cd0 + MSL.k*MSLfnc.cl(th).^2;
+MSL.y0_sim = [0; 0; 0; 0.1; 0; 0];
+
 
 %__________________________________________________ Simulink bus generation
 Simulink.Bus.createObject(MSL);
@@ -64,8 +66,6 @@ clear slBus1
 Simulink.Bus.createObject(AMB);
 AMBbus = slBus1;
 clear slBus1
-
-SIM.y0_sim = [0; 0; 0; 0.1; 0; 0];
 
 %% simulazione (è una validazione, idealmente in futuro non servirà più)
 clc

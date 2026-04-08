@@ -41,7 +41,7 @@ ENGbus = slBus1;
 clear slBus1
 
 %_______________________________________________________ initial conditions
-y0 = [101325; ENG.grain(1, 3); ENG.mp];
+ENG.y0 = [101325; ENG.grain(1, 3); ENG.mp];
 
 %% integration testing
 clc
