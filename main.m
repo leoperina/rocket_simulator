@@ -25,7 +25,7 @@ MSL.tb    = MSL.mp / abs(MSL.mdot);                                          % b
 MSL.T     = MSL.Isp*abs(MSL.mdot)*AMB.g0;                                    % engine thrust, assumed constant [N]
 
 
-MSL.ms    = 1;                                                               % empty weight
+MSL.ms    = 500;                                                             % empty weight [Kg]
 MSL.m     = MSL.mp + MSL.ms;                                                 % starting mass
 MSL.l     = 1;                                                               % rocket length
 MSL.diam  = 0.12;                                                            % body diameter
@@ -90,13 +90,14 @@ ENG.mp     = ENG.rhop * (ENG.Vc_dry - ENGfnc.Vc(ENG.grain(1, 3), ENG.L));
 
 ENG.a    = 7e-5;                                                           % m/s/Pa
 ENG.n    = 0.4;
+ENG.y0 = [101325; ENG.grain(1, 3); ENG.mp];
+
 
 %__________________________________________________ Simulink bus generation
 Simulink.Bus.createObject(ENG);
 ENGbus = slBus1;
 clear slBus1
 
-ENG.y0 = [101325; ENG.grain(1, 3); ENG.mp];
 
 clearvars ENGfnc;
 
